@@ -20,7 +20,7 @@ public abstract class MovingDateCursorStrategyBase : IMovingDateCursorStrategy
 
     public DateTime MoveToWorkingDay(DateTime dateTime)
     {
-        if (!IsWithinWorkingHours(dateTime))
+        if (IsWorkingDay(dateTime) && !IsWithinWorkingHours(dateTime))
         {
             dateTime = MoveToNextWorkingHoursWindow(dateTime);
         }
