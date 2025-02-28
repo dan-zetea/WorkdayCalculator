@@ -75,16 +75,24 @@ public class WorkdayCalendar : IWorkdayCalendar
             }
         }
 
-        return dateCursor;
-
-        // return RoundUpToMinutes(dateCursor);
+        return RoundToMinutes(dateCursor);
     }
 
-    private DateTime RoundUpToMinutes(DateTime dateTime)
+    private DateTime RoundToMinutes(DateTime dateTime)
     {
         var minutesFraction = dateTime.Ticks % TimeSpan.FromMinutes(1).Ticks;
 
-        return minutesFraction > 0 ? dateTime.AddTicks(TimeSpan.FromMinutes(1).Ticks - minutesFraction) : dateTime;
+        if (minutesFraction > 0)
+        {
+            return _dateCursorDirection switch
+            {
+                DateCursorDirection.Forward => dateTime.AddTicks(- minutesFraction),
+                DateCursorDirection.Backwards => dateTime.AddTicks(TimeSpan.FromMinutes(1).Ticks - minutesFraction),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
+        return dateTime;
     }
 
     private DateTime MoveToWorkingDay(DateTime dateTime)
