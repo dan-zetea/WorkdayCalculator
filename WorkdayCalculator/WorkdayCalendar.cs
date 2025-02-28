@@ -46,7 +46,6 @@ public class WorkdayCalendar : IWorkdayCalendar
 
         var dateCursor = startDate;
 
-        // TODO: maybe can find a better condition
         while (incrementInMinutes != 0)
         {
             dateCursor = movingDateCursorStrategy.MoveToWorkingDay(dateCursor);

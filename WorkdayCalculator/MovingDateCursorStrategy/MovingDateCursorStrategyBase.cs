@@ -20,7 +20,13 @@ public abstract class MovingDateCursorStrategyBase : IMovingDateCursorStrategy
 
     public abstract DateTime MoveToWorkingDay(DateTime dateTime);
 
-    public abstract DateTime RoundToMinutes(DateTime dateTime);
+    public DateTime RoundToMinutes(DateTime dateTime)
+    {
+        var minutesFraction = dateTime.Ticks % TimeSpan.FromMinutes(1).Ticks;
+        return minutesFraction > 0 ? RoundToMinutes(dateTime, minutesFraction) : dateTime;
+    }
+
+    protected abstract DateTime  RoundToMinutes(DateTime dateTime, long minutesFraction);
 
     protected bool IsWithinWorkingHours(DateTime date)
     {

@@ -1,4 +1,5 @@
-﻿using WorkdayCalculator.Domain;
+﻿using System;
+using WorkdayCalculator.Domain;
 
 namespace WorkdayCalculator.MovingDateCursorStrategy;
 
@@ -48,10 +49,9 @@ public class MovingForward : MovingDateCursorStrategyBase
         return dateTime;
     }
 
-    public override DateTime RoundToMinutes(DateTime dateTime)
+    protected override DateTime RoundToMinutes(DateTime dateTime, long minutesFraction)
     {
-        var minutesFraction = dateTime.Ticks % TimeSpan.FromMinutes(1).Ticks;
-        return minutesFraction > 0 ? dateTime.AddTicks(-minutesFraction) : dateTime;
+        return dateTime.AddTicks(-minutesFraction);
     }
 
     private DateTime MoveToNextWorkingHoursWindow(DateTime dateTime)
