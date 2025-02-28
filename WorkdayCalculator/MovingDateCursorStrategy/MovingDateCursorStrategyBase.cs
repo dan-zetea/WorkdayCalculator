@@ -18,7 +18,20 @@ public abstract class MovingDateCursorStrategyBase : IMovingDateCursorStrategy
 
     public abstract DateCursor ProcessIncrement(DateCursor dateCursor);
 
-    public abstract DateTime MoveToWorkingDay(DateTime dateTime);
+    public DateTime MoveToWorkingDay(DateTime dateTime)
+    {
+        if (!IsWithinWorkingHours(dateTime))
+        {
+            dateTime = MoveToNextWorkingHoursWindow(dateTime);
+        }
+
+        while (!IsWorkingDay(dateTime))
+        {
+            dateTime = MoveToNextDay(dateTime);
+        }
+
+        return dateTime;
+    }
 
     public DateTime RoundToMinutes(DateTime dateTime)
     {
@@ -26,7 +39,11 @@ public abstract class MovingDateCursorStrategyBase : IMovingDateCursorStrategy
         return minutesFraction > 0 ? RoundToMinutes(dateTime, minutesFraction) : dateTime;
     }
 
-    protected abstract DateTime  RoundToMinutes(DateTime dateTime, long minutesFraction);
+    protected abstract DateTime RoundToMinutes(DateTime dateTime, long minutesFraction);
+
+    protected abstract DateTime MoveToNextDay(DateTime dateTime);
+
+    protected abstract DateTime MoveToNextWorkingHoursWindow(DateTime dateTime);
 
     protected bool IsWithinWorkingHours(DateTime date)
     {

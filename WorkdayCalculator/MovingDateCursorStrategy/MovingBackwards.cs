@@ -33,28 +33,12 @@ public class MovingBackwards : MovingDateCursorStrategyBase
         return new DateCursor(dateTime, incrementInMinutes);
     }
 
-    public override DateTime MoveToWorkingDay(DateTime dateTime)
+    protected override DateTime MoveToNextDay(DateTime dateTime)
     {
-        if (!IsWithinWorkingHours(dateTime))
-        {
-            dateTime = MoveToNextWorkingHoursWindow(dateTime);
-        }
-
-        while (!IsWorkingDay(dateTime))
-        {
-            // when moving to next day, we don't want to keep the initial start date time
-            dateTime = dateTime.Date.AddDays(-1).Add(_workday.Stop);
-        }
-
-        return dateTime;
+        return dateTime.Date.AddDays(-1).Add(_workday.Stop);
     }
 
-    protected override DateTime RoundToMinutes(DateTime dateTime, long minutesFraction)
-    {
-        return dateTime.AddTicks(TimeSpan.FromMinutes(1).Ticks - minutesFraction);
-    }
-
-    private DateTime MoveToNextWorkingHoursWindow(DateTime dateTime)
+    protected override DateTime MoveToNextWorkingHoursWindow(DateTime dateTime)
     {
         if (dateTime.TimeOfDay < _workday.Start)
         {
@@ -67,5 +51,10 @@ public class MovingBackwards : MovingDateCursorStrategyBase
         }
 
         return dateTime;
+    }
+
+    protected override DateTime RoundToMinutes(DateTime dateTime, long minutesFraction)
+    {
+        return dateTime.AddTicks(TimeSpan.FromMinutes(1).Ticks - minutesFraction);
     }
 }
