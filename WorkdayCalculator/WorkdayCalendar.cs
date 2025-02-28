@@ -1,4 +1,5 @@
-﻿using WorkdayCalculator.Domain;
+﻿using System.ComponentModel.DataAnnotations;
+using WorkdayCalculator.Domain;
 using WorkdayCalculator.MovingDateCursorStrategy;
 
 namespace WorkdayCalculator;
@@ -29,6 +30,11 @@ public class WorkdayCalendar : IWorkdayCalendar
 
     public DateTime GetWorkdayIncrement(DateTime startDate, decimal incrementInWorkdays)
     {
+        if (_workday == null)
+        {
+            throw new ValidationException($"Workday not set. {nameof(SetWorkdayStartAndStop)} needs to be called first");
+        }
+
         IMovingDateCursorStrategy movingDateCursorStrategy =
             incrementInWorkdays > 0
                 ? new MovingForward(_holidays, _recurringHolidays, _workday)
