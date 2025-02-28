@@ -13,6 +13,7 @@ public class WorkDayCalendarTests
     [InlineData("24-05-2004 18:03", -6.7470217, "13-05-2004 10:02")]
     [InlineData("24-05-2004 08:03", 12.782709, "10-06-2004 14:18")]
     [InlineData("24-05-2004 07:03", 8.276628, "04-06-2004 10:12")]
+    [InlineData("24-05-2004 07:03", 8.5, "04-06-2004 12:00")]
     public void GetWorkdayIncrement(string startDateString, decimal increment, string expectedResultString)
     {
         var sut = Sut();

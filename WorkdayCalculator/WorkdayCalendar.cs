@@ -147,7 +147,7 @@ public class WorkdayCalendar : IWorkdayCalendar
     {
         return date.DayOfWeek != DayOfWeek.Saturday && 
                date.DayOfWeek != DayOfWeek.Sunday && 
-               !_holidays.Contains(date) &&
+               !_holidays.Contains(date.Date) &&
                !_recurringHolidays.Any(h=>h.Day == date.Day && h.Month == date.Month);
     }
 
