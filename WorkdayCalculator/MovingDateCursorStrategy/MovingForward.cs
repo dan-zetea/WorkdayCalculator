@@ -24,8 +24,7 @@ public class MovingForward : MovingDateCursorStrategyBase
         }
         else
         {
-            // TODO: check for better alternative to AddTicks(1)
-            dateTime = dateTime.AddMinutes(workdayRemainingMinutes).AddTicks(1);
+            dateTime = dateTime.AddMinutes(workdayRemainingMinutes);
             incrementInMinutes -= workdayRemainingMinutes;
         }
 
@@ -44,12 +43,17 @@ public class MovingForward : MovingDateCursorStrategyBase
             return dateTime.Date.Add(_workday.Start);
         }
 
-        if (dateTime.TimeOfDay > _workday.Stop)
+        if (dateTime.TimeOfDay >= _workday.Stop)
         {
             return dateTime.Date.AddDays(1).Add(_workday.Start);
         }
 
         return dateTime;
+    }
+
+    protected override bool IsWithinWorkingHours(DateTime date)
+    {
+        return date.TimeOfDay >= _workday.Start && date.TimeOfDay < _workday.Stop;
     }
 
     protected override DateTime RoundToMinutes(DateTime dateTime, long minutesFraction)

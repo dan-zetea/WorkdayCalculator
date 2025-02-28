@@ -25,8 +25,7 @@ public class MovingBackwards : MovingDateCursorStrategyBase
         }
         else
         {
-            // TODO: check for better alternative to AddTicks(-1)
-            dateTime = dateTime.AddMinutes(-workdayRemainingMinutes).AddTicks(-1);
+            dateTime = dateTime.AddMinutes(-workdayRemainingMinutes);
             incrementInMinutes += workdayRemainingMinutes;
         }
 
@@ -40,7 +39,7 @@ public class MovingBackwards : MovingDateCursorStrategyBase
 
     protected override DateTime MoveToNextWorkingHoursWindow(DateTime dateTime)
     {
-        if (dateTime.TimeOfDay < _workday.Start)
+        if (dateTime.TimeOfDay <= _workday.Start)
         {
             return dateTime.Date.AddDays(-1).Add(_workday.Stop);
         }
@@ -51,6 +50,11 @@ public class MovingBackwards : MovingDateCursorStrategyBase
         }
 
         return dateTime;
+    }
+
+    protected override bool IsWithinWorkingHours(DateTime date)
+    {
+        return date.TimeOfDay > _workday.Start && date.TimeOfDay <= _workday.Stop;
     }
 
     protected override DateTime RoundToMinutes(DateTime dateTime, long minutesFraction)

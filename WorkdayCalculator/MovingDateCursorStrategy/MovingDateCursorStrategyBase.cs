@@ -45,10 +45,7 @@ public abstract class MovingDateCursorStrategyBase : IMovingDateCursorStrategy
 
     protected abstract DateTime MoveToNextWorkingHoursWindow(DateTime dateTime);
 
-    protected bool IsWithinWorkingHours(DateTime date)
-    {
-        return date.TimeOfDay >= _workday.Start && date.TimeOfDay <= _workday.Stop;
-    }
+    protected abstract bool IsWithinWorkingHours(DateTime date);
 
     protected bool IsWorkingDay(DateTime date)
     {
