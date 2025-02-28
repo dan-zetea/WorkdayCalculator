@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.ComponentModel.DataAnnotations;
+using FluentAssertions;
 using WorkdayCalculator;
 
 namespace WorkdayCalculatorTests;
@@ -29,6 +30,63 @@ public class WorkDayCalendarTests
         var expectedResult = DateTime.Parse(expectedResultString);
 
         result.Should().Be(expectedResult);
+    }
+
+    [Theory]
+    [InlineData(0, 1, false)]
+    [InlineData(13, 1, false)]
+    [InlineData(1, 0, false)]
+    [InlineData(1, 32, false)]
+    [InlineData(1, 31, true)]
+    [InlineData(2, 29, true)]
+    [InlineData(3, 31, true)]
+    [InlineData(4, 30, true)]
+    public void SetRecurringHoliday_InputValidity(int month, int day, bool expectsToBeValid)
+    {
+        var sut = Sut();
+
+        var call = () => sut.SetRecurringHoliday(month, day);
+
+        if (expectsToBeValid)
+        {
+            call.Should().NotThrow();
+        }
+        else
+        {
+            call.Should().Throw<ValidationException>();
+        }
+    }
+
+    [Theory]
+    [InlineData(-1, 2, 2, 2, false)]
+    [InlineData(24, 2, 2, 2, false)]
+    [InlineData(0, -1, 2, 2, false)]
+    [InlineData(0, 60, 2, 2, false)]
+    [InlineData(0, 0, -1, 2, false)]
+    [InlineData(0, 0, 24, 2, false)]
+    [InlineData(0, 0, 1, -1, false)]
+    [InlineData(0, 0, 1, 60, false)]
+    [InlineData(8, 0, 7, 0, false)]
+    [InlineData(8, 0, 7, 59, false)]
+    [InlineData(8, 0, 8, 0, false)]
+    [InlineData(8, 0, 8, 1, true)]
+    [InlineData(8, 0, 9, 0, true)]
+    [InlineData(8, 0, 16, 0, true)]
+    public void SetWorkdayStartAndStop_InputValidity(int startHours, int startMinutes, int stopHours, int stopMinutes,
+        bool expectsToBeValid)
+    {
+        var sut = Sut();
+
+        var call = () => sut.SetWorkdayStartAndStop(startHours, startMinutes, stopHours, stopMinutes);
+
+        if (expectsToBeValid)
+        {
+            call.Should().NotThrow();
+        }
+        else
+        {
+            call.Should().Throw<ValidationException>();
+        }
     }
 
     private WorkdayCalendar Sut() => new WorkdayCalendar();
