@@ -18,7 +18,8 @@ public class MovingBackwards : MovingDateCursorStrategyBase
 
         var workdayRemainingMinutes = (dateTime.TimeOfDay - _workday.Start).TotalMinutes;
 
-        if (workdayRemainingMinutes >= Math.Abs(incrementInMinutes))
+        bool isIncrementRunningOut = Math.Abs(incrementInMinutes) <= workdayRemainingMinutes;
+        if (isIncrementRunningOut)
         {
             dateTime = dateTime.AddMinutes(incrementInMinutes);
             incrementInMinutes = 0;
