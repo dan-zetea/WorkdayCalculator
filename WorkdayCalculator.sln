@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35728.132 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkdayCalculator", "WorkdayCalculator\WorkdayCalculator.csproj", "{675F200B-12BF-4AD6-A3D6-C6B7D4BD94AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkdayCalculatorTests", "WorkdayCalculatorTests\WorkdayCalculatorTests.csproj", "{347BBAC8-55CC-441D-AB6F-07BA3C3B7062}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{675F200B-12BF-4AD6-A3D6-C6B7D4BD94AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{675F200B-12BF-4AD6-A3D6-C6B7D4BD94AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{675F200B-12BF-4AD6-A3D6-C6B7D4BD94AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{675F200B-12BF-4AD6-A3D6-C6B7D4BD94AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{347BBAC8-55CC-441D-AB6F-07BA3C3B7062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{347BBAC8-55CC-441D-AB6F-07BA3C3B7062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{347BBAC8-55CC-441D-AB6F-07BA3C3B7062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{347BBAC8-55CC-441D-AB6F-07BA3C3B7062}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
