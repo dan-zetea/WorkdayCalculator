@@ -58,16 +58,19 @@ public class WorkdayCalendar : IWorkdayCalendar
             throw new ValidationException($"Workday not set. {nameof(SetWorkdayStartAndStop)} needs to be called first");
         }
 
-        IMovingDateCursorStrategy movingDateCursorStrategy =
-            incrementInWorkdays > 0
-                ? new MovingForward(_holidays, _recurringHolidays, _workday)
-                : new MovingBackwards(_holidays, _recurringHolidays, _workday);
-
         var workWindowInMinutes = (_workday.Stop - _workday.Start).TotalMinutes;
 
         var incrementInMinutes = workWindowInMinutes * (double)incrementInWorkdays;
 
-        var dateCursor = startDate;
+        return MoveDateCursor(startDate, incrementInMinutes);
+    }
+
+    private DateTime MoveDateCursor(DateTime dateCursor, double incrementInMinutes)
+    {
+        IMovingDateCursorStrategy movingDateCursorStrategy =
+            incrementInMinutes > 0
+                ? new MovingForward(_holidays, _recurringHolidays, _workday)
+                : new MovingBackwards(_holidays, _recurringHolidays, _workday);
 
         while (incrementInMinutes != 0)
         {
